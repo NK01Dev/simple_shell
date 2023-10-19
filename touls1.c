@@ -28,7 +28,7 @@ void p_error(char *name, char *cmnd, int indx)
 char *index, mssg[] = ": not found \n";
 index = _itoa(indx);
 write(STDERR_FILENO, name, _strlen(name));
-write(STDERR_FILENO, " :", 2);
+write(STDERR_FILENO, ": ", 2);
 write(STDERR_FILENO, index, _strlen(index));
 write(STDERR_FILENO, ":", 2);
 write(STDERR_FILENO, cmnd, _strlen(cmnd));
