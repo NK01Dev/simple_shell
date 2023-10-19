@@ -25,7 +25,7 @@ free(array), array = NULL;
  */
 void p_error(char *name, char *cmnd, int indx)
 {
-char *index, mssg[] = ": not found \n";
+char *index, mssg[] = ": not found\n";
 index = _itoa(indx);
 write(STDERR_FILENO, name, _strlen(name));
 write(STDERR_FILENO, ": ", 2);
