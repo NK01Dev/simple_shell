@@ -49,7 +49,7 @@ print_environ(cmnd, stts);
 void end_shell(char **cmnd, char **argv, int *stts, int indx)
 {
 int exit_value = (*stts);
-char *index, mssg[] = ": exit: Illegal number:";
+char *index, mssg[] = ": exit: Illegal number: ";
 if (cmnd[1])
 {
 if (check_if_positive(cmnd[1]))
