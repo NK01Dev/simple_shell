@@ -7,7 +7,7 @@
 int is_builtinside(char *cmnd)
 {
 
-char *builtinside[] = {"exit", "env", "setenv", "cd", NULL};
+char *builtinside[] = {"exit", "env", "setenv", "cd", "unsetenv", NULL};
 int i;
 
 for (i = 0; builtinside[i]; i++)
@@ -30,8 +30,39 @@ return (0);
 
 void handle_builtinside(char **cmnd, char **argv, int *stts, int indx)
 {
-
-if (_strcmp(cmnd[0], "exit") == 0)
+if (_strcmp(cmnd[0], "setenv") == 0)
+{
+if (cmnd[1] && cmnd[2])
+{
+if (setenv(cmnd[1], cmnd[2], 1) != 0)
+{
+perror("setenv");
+*stts = 2;
+}
+}
+else
+{
+write(STDERR_FILENO, "Usage: setenv VARIABLE VALUE\n", 30);
+*stts = 2;
+}
+}
+else if (_strcmp(cmnd[0], "unsetenv") == 0)
+{
+if (cmnd[1])
+{
+if (unsetenv(cmnd[1]) != 0)
+{
+perror("unsetenv");
+*stts = 2;
+}
+}
+else
+{
+write(STDERR_FILENO, "Usage: unsetenv VARIABLE\n", 27);
+*stts = 2;
+}
+}
+else if (_strcmp(cmnd[0], "exit") == 0)
 end_shell(cmnd, argv, stts, indx);
 else if (_strcmp(cmnd[0], "env") == 0)
 print_environ(cmnd, stts);
@@ -49,7 +80,7 @@ print_environ(cmnd, stts);
 void end_shell(char **cmnd, char **argv, int *stts, int indx)
 {
 int exit_value = (*stts);
-char *index, mssg[] = ": exit: Illegal number: ";
+char *index, mssg[] = ": exit: Illegal number:";
 if (cmnd[1])
 {
 if (check_if_positive(cmnd[1]))
@@ -76,7 +107,7 @@ exit(exit_value);
 }
 
 /**
- * print_environ - prints the environ
+ * end_shell - checks for illegal inputs
  * @cmnd: the input command line
  * @stts: exit value
  * Return: void
