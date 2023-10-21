@@ -148,7 +148,7 @@ exit(exit_value);
 }
 
 /**
- * end_shell - checks for illegal inputs
+ * print_environ - checks for illegal inputs
  * @cmnd: the input command line
  * @stts: exit value
  * Return: void
