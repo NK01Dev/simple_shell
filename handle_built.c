@@ -102,6 +102,8 @@ return;
 }
 setenv("PWD", currentDir, 1);
 setenv("OLDPWD", previousDir, 1);
+free(homeDir);
+free(previousDir);
 }
 
 
