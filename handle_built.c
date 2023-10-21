@@ -82,7 +82,6 @@ char *targetDir = cmnd[1] ? cmnd[1] : homeDir;
 char currentDir[PATH_MAX];
 if (!homeDir)
 {
-write(STDERR_FILENO, "cd: HOME not set\n", 17);
 *stts = 2;
 return;
 }
