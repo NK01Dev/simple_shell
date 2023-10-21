@@ -28,7 +28,7 @@ char *read_line(void);
 char *_itoa(int n);
 void p_error(char *name, char *cmd, int idx);
 void reverse_string(char *str, int len);
-
+void handle_cd(char **cmnd, int *stts);
 int check_if_positive(char *str);
 int _atoi(char *str);
 

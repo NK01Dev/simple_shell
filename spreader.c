@@ -21,7 +21,6 @@ free(line), line = NULL;
 free(temporary), temporary = NULL;
 return (NULL);
 }
-
 while (kelma)
 {
 cptr++;

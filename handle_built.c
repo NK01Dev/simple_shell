@@ -58,7 +58,7 @@ perror("unsetenv");
 }
 else
 {
-write(STDERR_FILENO, "Usage: unsetenv VARIABLE\n", 27);
+write(STDERR_FILENO, "Usage: unsetenv VARIABLE\n", 26);
 *stts = 2;
 }
 }
@@ -66,7 +66,46 @@ else if (_strcmp(cmnd[0], "exit") == 0)
 end_shell(cmnd, argv, stts, indx);
 else if (_strcmp(cmnd[0], "env") == 0)
 print_environ(cmnd, stts);
+
 }
+/**
+ * handle_cd - handles cd cmnd
+ * @cmnd: the input command line
+ * @stts: exit value
+ * Return: void
+ */
+void handle_cd(char **cmnd, int *stts)
+{
+char *homeDir = _getenviron("HOME");
+char *previousDir = _getenviron("PWD");
+char *targetDir = cmnd[1] ? cmnd[1] : homeDir;
+char currentDir[PATH_MAX];
+if (!homeDir)
+{
+write(STDERR_FILENO, "cd: HOME not set\n", 17);
+*stts = 2;
+return;
+}
+if (cmnd[1] && _strcmp(cmnd[1], "-") == 0)
+targetDir = previousDir;
+if (chdir(targetDir) != 0)
+{
+perror("cd");
+*stts = 2;
+return;
+}
+if (getcwd(currentDir, PATH_MAX) == NULL)
+{
+perror("cd");
+*stts = 2;
+return;
+}
+setenv("PWD", currentDir, 1);
+setenv("OLDPWD", previousDir, 1);
+}
+
+
+
 
 /**
  * end_shell - checks for illegal inputs
