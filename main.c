@@ -28,7 +28,7 @@ if (is_builtinside(cmnd[0]))
 {
 if (_strcmp(cmnd[0], "setenv") == 0 || _strcmp(cmnd[0], "unsetenv") == 0)
 {
-handle_builtinside(cmnd, argv, &stts,indx);
+handle_builtinside(cmnd, argv, &stts, indx);
 freeTable(cmnd);
 }
 else if (_strcmp(cmnd[0], "cd") == 0)
@@ -46,5 +46,5 @@ else
 stts = _exec(cmnd, argv, indx);
 }
 }
-return 0;
+return (0);
 }
