@@ -75,23 +75,19 @@ print_environ(cmnd, stts);
  * Return: void
  */
 void handle_cd(char **cmnd, int *stts) {
-char *homeDir = _getenviron("HOME");
-char *previousDir = _getenviron("OLDPWD");
+char *homeDir = getenv("HOME");
+char *previousDir = getenv("OLDPWD");
 char *targetDir = cmnd[1] ? cmnd[1] : homeDir;
 char currentDir[PATH_MAX];
 if (!homeDir)
 {
 *stts = 2;
-free(homeDir);
-free(previousDir);
 return;
 }
 if (cmnd[1] && _strcmp(cmnd[1], "-") == 0)
 {
 if (!previousDir) {
 *stts = 2;
-free(homeDir);
-free(previousDir);
 return;
 }
 targetDir = previousDir;
@@ -99,8 +95,6 @@ targetDir = previousDir;
 if (chdir(targetDir) != 0) {
 p_error2("./hsh", cmnd[1], 1);
 *stts = 2;
-free(homeDir);
-free(previousDir);
 return;
 }
 if (getcwd(currentDir, PATH_MAX) == NULL)
@@ -111,9 +105,8 @@ return;
 }
 setenv("OLDPWD", getenv("PWD"), 1);
 setenv("PWD", currentDir, 1);
-free(homeDir);
-free(previousDir);
 }
+
 
 
 
