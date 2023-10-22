@@ -74,36 +74,50 @@ print_environ(cmnd, stts);
  * @stts: exit value
  * Return: void
  */
-void handle_cd(char **cmnd, int *stts) {
-char *homeDir = getenv("HOME");
-char *previousDir = getenv("OLDPWD");
-char *targetDir = cmnd[1] ? cmnd[1] : homeDir;
-char currentDir[PATH_MAX];
-char tempDir[PATH_MAX];
-if (!homeDir) {
-*stts = 2;
+void handle_cd(char **cmnd, int *stts)
+{
+char *s, *dir, buffer[1024];
+int chdir_ret;
+s = getcwd(buffer, 1024);
+if (!s)
+perror("getcwd failure");
+if (!cmnd[1])
+{
+dir = _getenviron("HOME");
+if (!dir)
+chdir_ret = chdir((dir = _getenviron("PWD")) ? dir : "/");
+else
+chdir_ret = chdir(dir); 
+} 
+else if (_strcmp(cmnd[1], "-") == 0)
+{
+char *oldpwd = _getenviron("OLDPWD");
+if (!oldpwd)
+{
+write(STDOUT_FILENO, s, strlen(s));
+write(STDOUT_FILENO, "\n", 1);
+*stts = 1;
 return;
 }
-if (cmnd[1] && _strcmp(cmnd[1], "-") == 0) {
-if (!previousDir) {
-*stts = 2;
-return;
+write(STDOUT_FILENO, oldpwd, strlen(oldpwd));
+write(STDOUT_FILENO, "\n", 1);
+chdir_ret = chdir(oldpwd);
 }
-targetDir = previousDir;
+else
+{
+chdir_ret = chdir(cmnd[1]);
 }
-if (getcwd(tempDir, PATH_MAX) != NULL) {
-write(STDOUT_FILENO, tempDir, _strlen(tempDir));
-}
-if (chdir(targetDir) != 0) {
-p_error2("./hsh", cmnd[1], 1);
-*stts = 2;
-return;
-}
-if (getcwd(currentDir, PATH_MAX) != NULL) {
-write(STDOUT_FILENO, currentDir, _strlen(currentDir));
-}
+if (chdir_ret == -1)
+{
+perror("can't cd to ");
+write(STDERR_FILENO, cmnd[1], strlen(cmnd[1]));
+write(STDERR_FILENO, "\n", 1);
+*stts = 1;
+}else
+{
 setenv("OLDPWD", getenv("PWD"), 1);
-setenv("PWD", currentDir, 1);
+setenv("PWD", getcwd(buffer, 1024), 1);
+}
 }
 
 
