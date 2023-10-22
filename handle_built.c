@@ -87,8 +87,11 @@ free(homeDir);
 free(previousDir);
 return;
 }
-if (cmnd[1] && _strcmp(cmnd[1], "-") == 0)
+if (_strcmp(targetDir, "-") == 0)
+{
 targetDir = previousDir;
+unsetenv("OLDPWD");
+}
 if (chdir(targetDir) != 0)
 {
 p_error2("./hsh", cmnd[1], 1);
