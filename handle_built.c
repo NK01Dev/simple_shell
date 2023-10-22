@@ -83,6 +83,8 @@ char currentDir[PATH_MAX];
 if (!homeDir)
 {
 *stts = 2;
+free(homeDir);
+free(previousDir);
 return;
 }
 if (cmnd[1] && _strcmp(cmnd[1], "-") == 0)
