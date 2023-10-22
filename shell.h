@@ -31,6 +31,7 @@ void reverse_string(char *str, int len);
 void handle_cd(char **cmnd, int *stts);
 int check_if_positive(char *str);
 int _atoi(char *str);
+void p_error2(char *name, char *cmnd, int indx);
 
 char *_strdup(const char *str);
 int _strcmp(char *s1, char *s2);

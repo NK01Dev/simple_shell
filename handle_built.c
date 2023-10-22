@@ -91,8 +91,10 @@ if (cmnd[1] && _strcmp(cmnd[1], "-") == 0)
 targetDir = previousDir;
 if (chdir(targetDir) != 0)
 {
-perror("cd");
+p_error2("./hsh", cmnd[1], 1);
 *stts = 2;
+free(homeDir);
+free(previousDir);
 return;
 }
 if (getcwd(currentDir, PATH_MAX) == NULL)

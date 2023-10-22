@@ -35,6 +35,29 @@ write(STDERR_FILENO, cmnd, _strlen(cmnd));
 write(STDERR_FILENO, mssg, _strlen(mssg));
 free(index);
 }
+
+/**
+ * p_error2 - prints the error msg
+ * @name: the name of the execution file
+ * @cmnd: the command line
+ * @indx: the the index
+ * Return: void
+ */
+void p_error2(char *name, char *cmnd, int indx)
+{
+char *index, mssg[] = ": can't cd to /";
+index = _itoa(indx);
+write(STDERR_FILENO, name, _strlen(name));
+write(STDERR_FILENO, ": ", 2);
+write(STDERR_FILENO, index, _strlen(index));
+write(STDERR_FILENO, ": ", 2);
+write(STDERR_FILENO, "cd", 2);
+write(STDERR_FILENO, mssg, _strlen(mssg));
+write(STDERR_FILENO, cmnd, _strlen(cmnd));
+write(STDERR_FILENO, "\n", 1);
+free(index);
+}
+
 /**
  * *_itoa - converts from int to assci
  * @n: the integer
