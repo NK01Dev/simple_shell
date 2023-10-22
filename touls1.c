@@ -45,7 +45,7 @@ free(index);
  */
 void p_error2(char *name, char *cmnd, int indx)
 {
-char *index, mssg[] = ": can't cd to /";
+char *index, mssg[] = ": can't cd to ";
 index = _itoa(indx);
 write(STDERR_FILENO, name, _strlen(name));
 write(STDERR_FILENO, ": ", 2);
@@ -53,6 +53,10 @@ write(STDERR_FILENO, index, _strlen(index));
 write(STDERR_FILENO, ": ", 2);
 write(STDERR_FILENO, "cd", 2);
 write(STDERR_FILENO, mssg, _strlen(mssg));
+if (cmnd[0] != '/')
+{
+write(STDERR_FILENO, "/", 1);
+}
 write(STDERR_FILENO, cmnd, _strlen(cmnd));
 write(STDERR_FILENO, "\n", 1);
 free(index);
