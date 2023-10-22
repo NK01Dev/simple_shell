@@ -79,29 +79,28 @@ char *homeDir = getenv("HOME");
 char *previousDir = getenv("OLDPWD");
 char *targetDir = cmnd[1] ? cmnd[1] : homeDir;
 char currentDir[PATH_MAX];
-if (!homeDir)
-{
+char tempDir[PATH_MAX];
+if (!homeDir) {
 *stts = 2;
 return;
 }
-if (cmnd[1] && _strcmp(cmnd[1], "-") == 0)
-{
+if (cmnd[1] && _strcmp(cmnd[1], "-") == 0) {
 if (!previousDir) {
 *stts = 2;
 return;
 }
 targetDir = previousDir;
 }
+if (getcwd(tempDir, PATH_MAX) != NULL) {
+write(STDOUT_FILENO, tempDir, _strlen(tempDir));
+}
 if (chdir(targetDir) != 0) {
 p_error2("./hsh", cmnd[1], 1);
 *stts = 2;
 return;
 }
-if (getcwd(currentDir, PATH_MAX) == NULL)
-{
-perror("cd");
-*stts = 2;
-return;
+if (getcwd(currentDir, PATH_MAX) != NULL) {
+write(STDOUT_FILENO, currentDir, _strlen(currentDir));
 }
 setenv("OLDPWD", getenv("PWD"), 1);
 setenv("PWD", currentDir, 1);
