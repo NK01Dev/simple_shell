@@ -102,7 +102,7 @@ perror("cd");
 *stts = 2;
 return;
 }
-setenv("OLDPWD",_getenviron("PWD"), 1);
+setenv("OLDPWD",getenv("PWD"), 1);
 setenv("PWD", currentDir, 1);
 free(homeDir);
 free(previousDir);
